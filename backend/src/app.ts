@@ -3,6 +3,7 @@ import cors from "cors";
 import healthRoutes from "./routes/health.routes";
 import authRoutes from "./routes/auth.routes";
 import meRoutes from "./routes/me.routes";
+import profileRoutes from "./routes/profile.routes";
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.use(express.json());
 app.use("/health", healthRoutes);
 app.use("/auth", authRoutes);
 app.use("/me", meRoutes);
+app.use("/profile", profileRoutes);
 
 export default app;
