@@ -66,11 +66,11 @@ model RiderProfile {
   id        String     @id @default(cuid())
   userId    String     @unique
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  level     RiderLevel
-  weightKg  Float
-  heightCm  Float
-  age       Int
-  maxHr     Int
+  level     RiderLevel?
+  weightKg  Float?
+  heightCm  Float?
+  age       Int?
+  maxHr     Int?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
