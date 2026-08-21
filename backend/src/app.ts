@@ -16,5 +16,6 @@ app.use("/auth", authRoutes);
 app.use("/me", meRoutes);
 app.use("/profile", profileRoutes);
 app.use("/auth/strava", stravaRoutes);
+app.use("/strava", stravaRoutes);
 
 export default app;

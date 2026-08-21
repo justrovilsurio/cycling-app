@@ -30,8 +30,6 @@ enum WorkoutType {
   RECOVERY
   ENDURANCE
   INTERVAL
-  LONG_RIDE
-  RACE
 }
 
 enum IntensityZone {
@@ -85,6 +83,12 @@ model Workout {
   source    WorkoutSource @default(MANUAL)
   spotId    String?
   spot      Spot?         @relation(fields: [spotId], references: [id], onDelete: SetNull)
+
+  stravaActivityId String?  @unique
+  distanceMeters   Float?
+  durationSeconds  Int?
+  avgHeartRate     Float?
+
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 }

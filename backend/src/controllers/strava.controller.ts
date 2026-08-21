@@ -5,6 +5,8 @@ import {
   buildAuthorizeUrl,
   exchangeCodeForToken,
   saveStravaToken,
+  syncStravaActivities,
+  StravaNotConnectedError,
   StravaTokenExchangeError,
 } from "../services/strava.service";
 
@@ -48,4 +50,21 @@ export async function getStravaCallback(req: Request, res: Response) {
   }
 
   res.status(200).send("Strava account connected! You can close this tab.");
+}
+
+export async function postStravaSync(req: Request, res: Response) {
+  try {
+    const result = await syncStravaActivities(req.user!.id);
+    res.status(200).json(result);
+  } catch (err) {
+    if (err instanceof StravaNotConnectedError) {
+      res.status(400).json({ error: "Strava account not connected" });
+      return;
+    }
+    if (err instanceof StravaTokenExchangeError) {
+      res.status(502).json({ error: "Failed to sync with Strava" });
+      return;
+    }
+    throw err;
+  }
 }
