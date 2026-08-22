@@ -22,14 +22,14 @@ export function HealthCheck() {
   }, [])
 
   return (
-    <div className="rounded-lg border border-gray-200 p-4 font-mono text-sm">
-      <p className="mb-2 font-semibold text-gray-700">Backend health check</p>
-      {status === 'loading' && <p className="text-gray-500">Checking…</p>}
+    <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-4 font-mono text-sm text-card-fg">
+      <p className="mb-2 font-semibold text-muted-fg">Backend health check</p>
+      {status === 'loading' && <p className="text-muted-fg">Checking…</p>}
       {status === 'success' && (
-        <p className="text-green-600">{JSON.stringify(data)}</p>
+        <p className="text-recovery-fg">{JSON.stringify(data)}</p>
       )}
       {status === 'error' && (
-        <p className="text-red-600">
+        <p className="text-danger">
           Could not reach http://localhost:3000/health — is the backend running?
         </p>
       )}

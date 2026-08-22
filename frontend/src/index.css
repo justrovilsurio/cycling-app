@@ -1,1 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
+/*
+ * Design tokens: primitive -> semantic -> component.
+ *
+ * Palette sourced from the "Running & Cycling GPS" product-type entry in
+ * this session's UI/UX design database (colors.csv row 140: "Energetic
+ * orange + pace green on dark") rather than freehanded — that entry pairs
+ * with the "Dark Mode (OLED) + Vibrant & Block-based" style recommendation
+ * for the same product type, which is why dark is the BASE definition here
+ * and light is the override, not the other way around: this class of app
+ * (Strava, Whoop, Nike Run Club) is designed dark-first, with light mode as
+ * a fully-supported but secondary variant, not the reverse.
+ */
+:root {
+  /* --- brand --- */
+  --brand-primary: #ea580c;
+  --brand-primary-fg: #000000;
+  --brand-secondary: #f97316;
+  --brand-accent: #059669;
+  --brand-accent-fg: #000000;
+
+  /* --- surfaces --- */
+  --surface-bg: #0f172a;
+  --surface-fg: #ffffff;
+  --surface-card: #192134;
+  --surface-card-fg: #ffffff;
+  --surface-muted: #201c27;
+  --surface-muted-fg: #94a3b8;
+  --surface-border: rgba(255, 255, 255, 0.08);
+
+  --danger: #dc2626;
+  --danger-fg: #ffffff;
+  --ring-color: #ea580c;
+
+  /* --- day-state zones (bold filled blocks, not tinted badges) --- */
+  --zone-recovery-bg: rgba(5, 150, 105, 0.16);
+  --zone-recovery-fg: #34d399;
+  --zone-recovery-border: rgba(52, 211, 153, 0.35);
+
+  --zone-endurance-bg: rgba(249, 115, 22, 0.16);
+  --zone-endurance-fg: #fb923c;
+  --zone-endurance-border: rgba(251, 146, 60, 0.35);
+
+  --zone-interval-bg: rgba(220, 38, 38, 0.16);
+  --zone-interval-fg: #f87171;
+  --zone-interval-border: rgba(248, 113, 113, 0.35);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Deepened one step from the dark-mode brand hues so white/dark text
+       pairings on solid fills still clear 4.5:1 on a light background. */
+    --brand-primary: #c2410c;
+    --brand-primary-fg: #ffffff;
+    --brand-secondary: #ea580c;
+    --brand-accent: #047857;
+    --brand-accent-fg: #ffffff;
+
+    --surface-bg: #f8fafc;
+    --surface-fg: #0f172a;
+    --surface-card: #ffffff;
+    --surface-card-fg: #0f172a;
+    --surface-muted: #f1f5f9;
+    --surface-muted-fg: #475569;
+    --surface-border: #e2e8f0;
+
+    --danger: #dc2626;
+    --danger-fg: #ffffff;
+    --ring-color: #c2410c;
+
+    --zone-recovery-bg: #ecfdf5;
+    --zone-recovery-fg: #047857;
+    --zone-recovery-border: #a7f3d0;
+
+    --zone-endurance-bg: #fff7ed;
+    --zone-endurance-fg: #c2410c;
+    --zone-endurance-border: #fed7aa;
+
+    --zone-interval-bg: #fef2f2;
+    --zone-interval-fg: #b91c1c;
+    --zone-interval-border: #fecaca;
+  }
+}
+
+@theme {
+  --color-brand: var(--brand-primary);
+  --color-brand-fg: var(--brand-primary-fg);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-accent: var(--brand-accent);
+  --color-accent-fg: var(--brand-accent-fg);
+
+  --color-surface: var(--surface-bg);
+  --color-surface-fg: var(--surface-fg);
+  --color-card: var(--surface-card);
+  --color-card-fg: var(--surface-card-fg);
+  --color-muted: var(--surface-muted);
+  --color-muted-fg: var(--surface-muted-fg);
+  --color-border: var(--surface-border);
+
+  --color-danger: var(--danger);
+  --color-danger-fg: var(--danger-fg);
+  --color-ring: var(--ring-color);
+
+  --color-recovery-bg: var(--zone-recovery-bg);
+  --color-recovery-fg: var(--zone-recovery-fg);
+  --color-recovery-border: var(--zone-recovery-border);
+
+  --color-endurance-bg: var(--zone-endurance-bg);
+  --color-endurance-fg: var(--zone-endurance-fg);
+  --color-endurance-border: var(--zone-endurance-border);
+
+  --color-interval-bg: var(--zone-interval-bg);
+  --color-interval-fg: var(--zone-interval-fg);
+  --color-interval-border: var(--zone-interval-border);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+}
+
+/* --- component: day-cell specific, composed from semantic tokens --- */
+:root {
+  --daycell-focus-ring: var(--color-ring);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-surface);
+  color: var(--color-surface-fg);
+}

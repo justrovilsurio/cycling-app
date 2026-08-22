@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/prisma";
-import { getPrescribedType, WorkoutLike } from "../services/planService";
+import { getPrescription, getSuggestedEffort, pickTopSpot, WorkoutLike } from "../services/planService";
 
 const WORKOUT_HISTORY_DAYS = 28;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -25,11 +25,24 @@ export async function getTodayPlanHandler(req: Request, res: Response) {
     durationMinutes: (workout.durationSeconds ?? 0) / 60,
   }));
 
-  const recommendedType = getPrescribedType(profile?.level ?? null, workoutsForPlan, raceGoal);
+  const { type: recommendedType, reason } = getPrescription(
+    profile?.level ?? null,
+    workoutsForPlan,
+    raceGoal,
+  );
+  const suggestedEffort = getSuggestedEffort(recommendedType, profile?.maxHr ?? null);
 
-  const suggestedSpots = await prisma.spot.findMany({
+  const spots = await prisma.spot.findMany({
     where: { suitableFor: { has: recommendedType } },
   });
+  const { spot: topSpot, reason: spotReason, otherSpots } = pickTopSpot(recommendedType, spots);
 
-  res.status(200).json({ recommendedType, suggestedSpots });
+  res.status(200).json({
+    recommendedType,
+    reason,
+    suggestedEffort,
+    topSpot,
+    spotReason,
+    otherSpots,
+  });
 }
