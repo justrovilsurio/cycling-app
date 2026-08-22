@@ -156,7 +156,7 @@ const DURATION_RANGE_MINUTES: Record<WorkoutType, { min: number; max: number }> 
 };
 
 // Standard %max-heart-rate-per-zone convention.
-const HR_PERCENT_RANGE: Record<IntensityZone, { min: number; max: number }> = {
+export const HR_PERCENT_RANGE: Record<IntensityZone, { min: number; max: number }> = {
   RECOVERY: { min: 0.5, max: 0.6 },
   ENDURANCE: { min: 0.6, max: 0.7 },
   TEMPO: { min: 0.7, max: 0.8 },

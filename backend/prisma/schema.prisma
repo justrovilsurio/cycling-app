@@ -84,13 +84,19 @@ model Workout {
   spotId    String?
   spot      Spot?         @relation(fields: [spotId], references: [id], onDelete: SetNull)
 
-  stravaActivityId String?  @unique
+  stravaActivityId String?
   distanceMeters   Float?
   durationSeconds  Int?
   avgHeartRate     Float?
 
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+
+  // A Strava activity is unique per user, not globally — the same athlete can
+  // be connected to more than one account (and one rider can delete and
+  // re-create theirs). A global unique here let one user's sync match, and
+  // then overwrite, another user's workout row.
+  @@unique([userId, stravaActivityId])
 }
 
 model Spot {

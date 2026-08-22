@@ -262,7 +262,7 @@ export async function syncStravaActivities(userId: string): Promise<SyncResult> 
 
   const activityIds = cyclingActivities.map((activity) => String(activity.id));
   const existing = await prisma.workout.findMany({
-    where: { stravaActivityId: { in: activityIds } },
+    where: { userId, stravaActivityId: { in: activityIds } },
     select: { stravaActivityId: true },
   });
   const existingIds = new Set(existing.map((workout) => workout.stravaActivityId));
@@ -282,8 +282,12 @@ export async function syncStravaActivities(userId: string): Promise<SyncResult> 
       source: WorkoutSource.STRAVA,
     };
 
+    // Scoped to (userId, stravaActivityId), never stravaActivityId alone —
+    // the same athlete can be connected to more than one account, and an
+    // unscoped match would update a different user's row instead of creating
+    // one here.
     await prisma.workout.upsert({
-      where: { stravaActivityId },
+      where: { userId_stravaActivityId: { userId, stravaActivityId } },
       create: { userId, stravaActivityId, ...data },
       update: data,
     });

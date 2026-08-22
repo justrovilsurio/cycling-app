@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/prisma";
 import { getPrescription, getSuggestedEffort, pickTopSpot, WorkoutLike } from "../services/planService";
+import { getSessionTemplate } from "../services/sessionTemplates";
+import { RiderLevel } from "../generated/prisma/enums";
 
 const WORKOUT_HISTORY_DAYS = 28;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -31,6 +33,14 @@ export async function getTodayPlanHandler(req: Request, res: Response) {
     raceGoal,
   );
   const suggestedEffort = getSuggestedEffort(recommendedType, profile?.maxHr ?? null);
+  // getPrescription treats a null level as CASUAL, so the template lookup has
+  // to make the same substitution or the two would disagree about which
+  // session a level-less rider gets.
+  const session = getSessionTemplate(
+    recommendedType,
+    profile?.level ?? RiderLevel.CASUAL,
+    profile?.maxHr ?? null,
+  );
 
   const spots = await prisma.spot.findMany({
     where: { suitableFor: { has: recommendedType } },
@@ -41,6 +51,7 @@ export async function getTodayPlanHandler(req: Request, res: Response) {
     recommendedType,
     reason,
     suggestedEffort,
+    session,
     topSpot,
     spotReason,
     otherSpots,
