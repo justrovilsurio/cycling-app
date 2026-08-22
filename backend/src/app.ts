@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.routes";
 import meRoutes from "./routes/me.routes";
 import profileRoutes from "./routes/profile.routes";
 import stravaRoutes from "./routes/strava.routes";
+import planRoutes from "./routes/plan.routes";
 
 const app = express();
 
@@ -17,5 +18,6 @@ app.use("/me", meRoutes);
 app.use("/profile", profileRoutes);
 app.use("/auth/strava", stravaRoutes);
 app.use("/strava", stravaRoutes);
+app.use("/plan", planRoutes);
 
 export default app;
