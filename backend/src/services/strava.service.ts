@@ -132,7 +132,7 @@ async function refreshAccessToken(refreshToken: string): Promise<StravaRefreshRe
 // one first if the stored token has already expired. Every call site that
 // talks to Strava's API should go through this rather than reading
 // StravaToken.accessToken directly.
-async function getValidAccessToken(userId: string): Promise<string> {
+export async function getValidAccessToken(userId: string): Promise<string> {
   const stravaToken = await prisma.stravaToken.findUnique({ where: { userId } });
   if (!stravaToken) {
     throw new StravaNotConnectedError(`User ${userId} has not connected Strava`);

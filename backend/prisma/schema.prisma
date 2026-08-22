@@ -94,12 +94,21 @@ model Workout {
 }
 
 model Spot {
-  id          String         @id @default(cuid())
-  name        String
+  id          String          @id @default(cuid())
+  name        String          @unique
   terrainType TerrainType
-  difficulty  SpotDifficulty
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  difficulty  SpotDifficulty?
+
+  averageGradePercent Float?
+  maxGradePercent     Float?
+  distanceMeters      Float?
+  elevationGainMeters Float?
+  climbCategory       Int?
+  suitableFor         WorkoutType[] @default([])
+  notes               String?
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 
   workouts    Workout[]
 }
