@@ -48,13 +48,50 @@ export interface SuggestedEffort {
   zone: IntensityZone
   minDurationMinutes: number
   maxDurationMinutes: number
-  targetHrRange: { min: number; max: number } | null
+  targetHrRange: HrRange | null
+}
+
+export type RiderLevel = 'CASUAL' | 'MID' | 'RACING'
+
+export interface HrRange {
+  min: number
+  max: number
+}
+
+export interface DurationRange {
+  min: number
+  max: number
+}
+
+export interface PrescribedBlock {
+  reps: number
+  durationMinutes: number
+  targetZone: IntensityZone
+  targetHrRange: HrRange | null
+  recoveryMinutes: number
+  recoveryZone: IntensityZone
+  recoveryHrRange: HrRange | null
+}
+
+export interface SessionTemplate {
+  workoutType: WorkoutType
+  riderLevel: RiderLevel
+  totalDurationMinutes: DurationRange
+  warmupMinutes: number
+  cooldownMinutes: number
+  primaryZone: IntensityZone
+  targetHrRange: HrRange | null
+  /** Empty for steady rides that have no interval structure. */
+  workStructure: PrescribedBlock[]
+  targetCadenceRpm: { minRpm: number; maxRpm: number }
+  rpeCue: { min: number; max: number; description: string }
 }
 
 export interface TodayPlan {
   recommendedType: WorkoutType
   reason: string
   suggestedEffort: SuggestedEffort
+  session: SessionTemplate
   topSpot: Spot | null
   spotReason: string | null
   otherSpots: Spot[]

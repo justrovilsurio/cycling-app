@@ -35,3 +35,19 @@ export const INTENSITY_ZONE_ABBR: Record<IntensityZone, string> = {
   THRESHOLD: 'THR',
   VO2MAX: 'VO2',
 }
+
+/**
+ * Ranges collapse to a single value when both ends match — a structured
+ * session's length is exact, so "52 min" reads better than "52-52 min".
+ */
+export function formatMinuteRange(range: { min: number; max: number }): string {
+  return range.min === range.max ? `${range.min} min` : `${range.min}–${range.max} min`
+}
+
+export function formatHrRange(range: { min: number; max: number } | null): string | null {
+  return range === null ? null : `${range.min}–${range.max} bpm`
+}
+
+export function formatRpe(rpe: { min: number; max: number }): string {
+  return rpe.min === rpe.max ? `${rpe.min}` : `${rpe.min}–${rpe.max}`
+}

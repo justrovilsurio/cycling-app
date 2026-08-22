@@ -48,7 +48,10 @@ export function TrainingCalendar() {
         const workoutsData: Workout[] = await workoutsRes.json()
         const planData: TodayPlan = await planRes.json()
         if (!cancelled) {
+
+          console.log('Fetched workouts:', workoutsData)
           setWorkouts(workoutsData)
+          console.log('Fetched today plan:', planData)
           setTodayPlan(planData)
         }
       } catch (err) {

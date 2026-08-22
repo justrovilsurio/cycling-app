@@ -1,9 +1,9 @@
 import type { TodayPlan } from '../types/workout'
+import { SessionPlan } from './SessionPlan'
 import {
   WORKOUT_TYPE_ICON,
   WORKOUT_TYPE_LABEL,
   WORKOUT_TYPE_CLASSES,
-  INTENSITY_ZONE_LABEL,
 } from '../lib/workoutDisplay'
 
 interface TodayPlanPanelProps {
@@ -14,7 +14,7 @@ export function TodayPlanPanel({ plan }: TodayPlanPanelProps) {
   if (!plan) return null
 
   const Icon = WORKOUT_TYPE_ICON[plan.recommendedType]
-  const { suggestedEffort, topSpot, spotReason, otherSpots } = plan
+  const { topSpot, spotReason, otherSpots } = plan
 
   return (
     <section
@@ -34,32 +34,7 @@ export function TodayPlanPanel({ plan }: TodayPlanPanelProps) {
 
       <p className="text-sm leading-relaxed text-muted-fg">{plan.reason}</p>
 
-      <dl className="grid grid-cols-2 gap-3 rounded-lg border border-border bg-surface p-3 text-sm">
-        <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-muted-fg">
-            Target zone
-          </dt>
-          <dd className="font-semibold">{INTENSITY_ZONE_LABEL[suggestedEffort.zone]}</dd>
-        </div>
-        <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-muted-fg">
-            Duration
-          </dt>
-          <dd className="font-semibold">
-            {suggestedEffort.minDurationMinutes}–{suggestedEffort.maxDurationMinutes} min
-          </dd>
-        </div>
-        {suggestedEffort.targetHrRange && (
-          <div className="col-span-2">
-            <dt className="text-xs font-semibold uppercase tracking-wide text-muted-fg">
-              Target heart rate
-            </dt>
-            <dd className="font-semibold">
-              {suggestedEffort.targetHrRange.min}–{suggestedEffort.targetHrRange.max} bpm
-            </dd>
-          </div>
-        )}
-      </dl>
+      <SessionPlan session={plan.session} />
 
       {topSpot && (
         <div className="rounded-lg border border-brand/40 bg-surface p-3 text-sm">
